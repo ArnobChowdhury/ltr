@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ltr/constants/style.dart';
+import 'package:ltr/widgets/add_subject.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -55,11 +56,15 @@ class Home extends StatelessWidget {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)))),
                         child: Text('Physics', style: subjectTextStyle)),
-                    const SizedBox(width: 10), // Add space between buttons
+                    const SizedBox(
+                        width: spacing2x), // Add space between buttons
                     TextButton(
                         onPressed: () {
-                          // Add your button action here
-                          print('Button 2 pressed!');
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const AddSubjectDialog();
+                              });
                         },
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -78,7 +83,7 @@ class Home extends StatelessWidget {
                               size: 22,
                               color: Colors.white,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: spacing1x),
                             Text('Add a subject', style: subjectTextStyle),
                           ],
                         )),
