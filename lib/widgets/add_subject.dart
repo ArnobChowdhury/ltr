@@ -4,7 +4,9 @@ import 'package:hive/hive.dart';
 import 'package:ltr/constants/style.dart';
 
 class AddSubjectDialog extends StatefulWidget {
-  const AddSubjectDialog({super.key});
+  final Function onAdd;
+
+  const AddSubjectDialog({required this.onAdd, super.key});
 
   @override
   State<AddSubjectDialog> createState() => _AddSubjectDialogState();
@@ -111,6 +113,8 @@ class _AddSubjectDialogState extends State<AddSubjectDialog> {
             existingSubjects
                 .add({"name": _subjectName, "color": _selectedColor.hex});
             await subjects.put('subs', existingSubjects);
+
+            widget.onAdd();
 
             if (!mounted) return; // If not mounted, return immediately
             Navigator.of(context).pop();
