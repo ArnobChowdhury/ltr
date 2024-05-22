@@ -61,27 +61,63 @@ class _HomeState extends State<Home> {
                         String hexString = subject['color'];
                         int colorValue = int.parse('FF$hexString', radix: 16);
 
-                        return TextButton(
-                            onPressed: () {
-                              // Take the user to the editor
-                            },
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color(colorValue)),
-                                minimumSize: MaterialStateProperty.all<Size>(
-                                    const Size(
-                                        200, 150)), // Set the minimum size
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5)))),
-                            child:
-                                Text(subject['name'], style: subjectTextStyle));
+                        return Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  // Take the user to the editor
+                                },
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Color(colorValue)),
+                                    minimumSize: MaterialStateProperty.all<Size>(
+                                        const Size(
+                                            200, 150)), // Set the minimum size
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)))),
+                                child: Text(subject['name'],
+                                    style: subjectTextStyle)),
+                            Padding(
+                              padding: const EdgeInsets.only(right: spacing1x),
+                              child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                      iconEnabledColor: Colors.white,
+                                      icon: const Icon(Icons.menu,
+                                          size: spacing2x),
+                                      onChanged: (String? selectedValue) {
+                                        print(selectedValue);
+                                      },
+                                      items: const [
+                                    DropdownMenuItem(
+                                      value: 'Edit',
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.edit, size: spacing2x),
+                                          SizedBox(width: spacing2x),
+                                          Text('Edit'),
+                                        ],
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'Delete',
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.delete, size: spacing2x),
+                                          SizedBox(width: spacing2x),
+                                          Text('Delete'),
+                                        ],
+                                      ),
+                                    ),
+                                  ])),
+                            )
+                          ],
+                        );
                       }),
-                      // ,
-                      // const SizedBox(width: spacing2x), // Add space between buttons
                       TextButton(
                           onPressed: () {
                             showDialog(
