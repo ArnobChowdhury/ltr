@@ -13,8 +13,6 @@ class AddSubjectDialog extends StatefulWidget {
 }
 
 class _AddSubjectDialogState extends State<AddSubjectDialog> {
-  // Color _selectedColor = Colors.purple; // Default color
-
   static const Color blue = Color(0xFF2767A1);
   static const Color paste = Color(0xFF037B79);
   static const Color green = Color(0xFF5D9476);

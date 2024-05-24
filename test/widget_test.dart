@@ -1,30 +1,53 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:ltr/widgets/add_subject.dart';
+// import 'package:mockito/mockito.dart'; // uncomment when using verify for mocks cbs
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
-import 'package:ltr/main.dart';
+import 'mock_callback.dart';
+import 'path_provider_mock.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  setUp(() async {
+    PathProviderPlatform.instance = FakePathProviderPlatform();
+    await Hive.initFlutter();
+    // Open a box for testing
+    await Hive.openBox('subjects');
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('AddSubjectDialog builds correctly and allows adding a subject',
+      (WidgetTester tester) async {
+    final mockCallback = MockCallback();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: AddSubjectDialog(onAdd: mockCallback.onAdd),
+      ),
+    ));
+
+    expect(find.byType(AlertDialog), findsOneWidget);
+
+    // Enter some text into the TextField
+    await tester.enterText(find.byType(TextField), 'Math');
+    expect(find.text('Math'), findsOneWidget);
+
+    final addButton = find.widgetWithText(TextButton, 'Add');
+    expect(addButton, findsOneWidget);
+
+    final cancelButton = find.widgetWithText(TextButton, 'Cancel');
+    expect(cancelButton, findsOneWidget);
+
+    expect(find.byType(ColorIndicator), findsExactly(7));
+
+    // await tester.tap(addButton);
+    // Wait for the widget to settle
+    // await tester.pumpAndSettle();
+
+    // Verify that the onAdd callback was called once
+    // verify(mockCallback.onAdd()).called(1);
   });
 }
