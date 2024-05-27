@@ -4,6 +4,7 @@ import 'package:ltr/constants/style.dart';
 import 'package:ltr/widgets/add_subject.dart';
 import 'package:ltr/services/hive_service.dart';
 import 'package:ltr/models/subject.dart';
+import 'package:ltr/utils/helper.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -47,9 +48,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Map<int, Subject> indexedSubjects = _subjects.asMap();
 
-    final TextStyle subjectTextStyle =
-        Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white);
-
     return Scaffold(
       // todo app bar to be replaced by Custom app bar
       appBar: AppBar(
@@ -84,8 +82,11 @@ class _HomeState extends State<Home> {
                       ...indexedSubjects.entries.map<Widget>((entry) {
                         int index = entry.key;
                         Subject subject = entry.value;
-                        String hexString = subject.color;
-                        int colorValue = int.parse('FF$hexString', radix: 16);
+
+                        String bgHexString = subject.color;
+                        String textHexString = bgToTextColor(subject.color);
+                        int bgColorValue = hexToInt(bgHexString);
+                        int textColorValue = hexToInt(textHexString);
 
                         return Stack(
                           alignment: Alignment.topRight,
@@ -97,17 +98,20 @@ class _HomeState extends State<Home> {
                                 style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            Color(colorValue)),
+                                            Color(bgColorValue)),
                                     minimumSize: MaterialStateProperty.all<Size>(
                                         const Size(
                                             200, 150)), // Set the minimum size
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5)))),
+                                    shape:
+                                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)))),
                                 child: Text(subject.name,
-                                    style: subjectTextStyle)),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(color: Color(textColorValue)))),
                             Padding(
                               padding: const EdgeInsets.only(right: spacing1x),
                               child: DropdownButtonHideUnderline(
@@ -172,7 +176,11 @@ class _HomeState extends State<Home> {
                                 color: Colors.white,
                               ),
                               const SizedBox(height: spacing1x),
-                              Text('Add a subject', style: subjectTextStyle),
+                              Text('Add a subject',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(color: Colors.white)),
                             ],
                           )),
                     ],
