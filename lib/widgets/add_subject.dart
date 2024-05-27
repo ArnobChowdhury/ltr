@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:hive/hive.dart';
 import 'package:ltr/constants/style.dart';
 
 class AddSubjectDialog extends StatefulWidget {
-  final Function onAdd;
+  final Function(String name, String color) onAdd;
 
   const AddSubjectDialog({required this.onAdd, super.key});
 
@@ -38,8 +37,6 @@ class _AddSubjectDialogState extends State<AddSubjectDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final subjects = Hive.box('subjects');
-
     return AlertDialog(
       content: Padding(
         padding: const EdgeInsets.all(spacing3x),
@@ -103,16 +100,7 @@ class _AddSubjectDialogState extends State<AddSubjectDialog> {
         ),
         TextButton(
           onPressed: () async {
-            if (_subjectName.isEmpty) {
-              return;
-            }
-            List<dynamic> existingSubjects =
-                subjects.get('subs', defaultValue: []);
-            existingSubjects
-                .add({"name": _subjectName, "color": _selectedColor.hex});
-            await subjects.put('subs', existingSubjects);
-
-            widget.onAdd();
+            widget.onAdd(_subjectName, _selectedColor.hex);
 
             if (!mounted) return; // If not mounted, return immediately
             Navigator.of(context).pop();

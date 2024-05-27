@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:ltr/screens/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:ltr/services/hive_service.dart';
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // initialize hive
-  await Hive.initFlutter();
+  await HiveService.init();
 
-  await Hive.openBox('subjects');
-
-  runApp(const MyApp());
+  runApp(const LTR());
 }
 
 // change the name MyApp
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LTR extends StatelessWidget {
+  const LTR({super.key});
 
   // This widget is the root of your application.
   @override

@@ -1,13 +1,11 @@
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/adapters.dart';
 import "package:ltr/models/subject.dart";
 
 class HiveService {
   static const String _subjectsBoxName = 'subjects';
 
   static Future<void> init() async {
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    Hive.init(appDocumentDir.path);
+    await Hive.initFlutter();
     Hive.registerAdapter(SubjectAdapter());
     await Hive.openBox<Subject>(_subjectsBoxName);
   }

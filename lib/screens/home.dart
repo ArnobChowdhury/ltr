@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
 import 'package:ltr/constants/style.dart';
 import 'package:ltr/widgets/add_subject.dart';
+import 'package:ltr/services/hive_service.dart';
+import 'package:ltr/models/subject.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,17 +13,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Box subjectsBox = Hive.box('subjects');
+  // Box subjectsBox = Hive.box('subjects');
+  List<Subject> _subjects = [];
 
-  void _onAddSubject() {
-    setState(() {});
+  @override
+  void initState() {
+    super.initState();
+    _loadSubjects();
+  }
+
+  void _loadSubjects() {
+    setState(() {
+      _subjects = HiveService().getSubjects();
+    });
+  }
+
+  void _onAddSubject(String name, String color) async {
+    await HiveService().addSubject(name, color);
+    _loadSubjects();
   }
 
   @override
   Widget build(BuildContext context) {
-    // delete print
-
-    List<dynamic> subjects = subjectsBox.get('subs', defaultValue: []);
+    // List<dynamic> subjects = subjectsBox.get('subs', defaultValue: []);
     final TextStyle subjectTextStyle =
         Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white);
 
@@ -57,8 +70,8 @@ class _HomeState extends State<Home> {
                     spacing: spacing2x,
                     runSpacing: spacing2x,
                     children: [
-                      ...subjects.map((subject) {
-                        String hexString = subject['color'];
+                      ..._subjects.map((subject) {
+                        String hexString = subject.color;
                         int colorValue = int.parse('FF$hexString', radix: 16);
 
                         return Stack(
@@ -80,7 +93,7 @@ class _HomeState extends State<Home> {
                                         RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(5)))),
-                                child: Text(subject['name'],
+                                child: Text(subject.name,
                                     style: subjectTextStyle)),
                             Padding(
                               padding: const EdgeInsets.only(right: spacing1x),
