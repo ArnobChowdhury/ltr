@@ -33,9 +33,20 @@ class _HomeState extends State<Home> {
     _loadSubjects();
   }
 
+  void _onSubjectMenuItemClick(String? selectedValue, int index) async {
+    if (selectedValue == 'Delete') {
+      await HiveService().deleteSubject(index);
+      _loadSubjects();
+    }
+    if (selectedValue == 'Edit') {
+      // Edit this subject
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // List<dynamic> subjects = subjectsBox.get('subs', defaultValue: []);
+    Map<int, Subject> indexedSubjects = _subjects.asMap();
+
     final TextStyle subjectTextStyle =
         Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white);
 
@@ -70,7 +81,9 @@ class _HomeState extends State<Home> {
                     spacing: spacing2x,
                     runSpacing: spacing2x,
                     children: [
-                      ..._subjects.map((subject) {
+                      ...indexedSubjects.entries.map<Widget>((entry) {
+                        int index = entry.key;
+                        Subject subject = entry.value;
                         String hexString = subject.color;
                         int colorValue = int.parse('FF$hexString', radix: 16);
 
@@ -100,11 +113,11 @@ class _HomeState extends State<Home> {
                               child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                       iconEnabledColor: Colors.white,
-                                      icon: const Icon(Icons.menu,
+                                      icon: const Icon(Icons.more_vert,
                                           size: spacing2x),
-                                      onChanged: (String? selectedValue) {
-                                        print(selectedValue);
-                                      },
+                                      onChanged: (selectedValue) =>
+                                          _onSubjectMenuItemClick(
+                                              selectedValue, index),
                                       items: const [
                                     DropdownMenuItem(
                                       value: 'Edit',
