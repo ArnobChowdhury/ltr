@@ -25,7 +25,7 @@ void main() {
 
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(
-        body: AddSubjectDialog(onAdd: mockCallback.onAdd),
+        body: AddSubjectDialog(onSave: mockCallback.onAdd),
       ),
     ));
 
@@ -35,8 +35,8 @@ void main() {
     await tester.enterText(find.byType(TextField), 'Math');
     expect(find.text('Math'), findsOneWidget);
 
-    final addButton = find.widgetWithText(TextButton, 'Add');
-    expect(addButton, findsOneWidget);
+    final saveButton = find.widgetWithText(TextButton, 'Save');
+    expect(saveButton, findsOneWidget);
 
     final cancelButton = find.widgetWithText(TextButton, 'Cancel');
     expect(cancelButton, findsOneWidget);
