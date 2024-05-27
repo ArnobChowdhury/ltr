@@ -29,8 +29,17 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _onAddSubject(String name, String color) async {
-    await HiveService().addSubject(name, color);
+  void _onSaveSubject(
+      {required String name, required String color, int? index}) async {
+    if (index == null) {
+      await HiveService().addSubject(name, color);
+    } else {
+      await HiveService().updateSubject(
+        index,
+        name,
+        color,
+      );
+    }
     _loadSubjects();
   }
 
@@ -40,7 +49,17 @@ class _HomeState extends State<Home> {
       _loadSubjects();
     }
     if (selectedValue == 'Edit') {
-      // Edit this subject
+      if (!mounted) return; // If not mounted, return immediately
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AddSubjectDialog(
+              onSave: _onSaveSubject,
+              index: index,
+              subjectName: _subjects[index].name,
+              subjectColor: _subjects[index].color,
+            );
+          });
     }
   }
 
@@ -154,7 +173,7 @@ class _HomeState extends State<Home> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AddSubjectDialog(
-                                    onAdd: _onAddSubject,
+                                    onSave: _onSaveSubject,
                                   );
                                 });
                           },

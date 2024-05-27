@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:ltr/constants/style.dart';
+import 'package:ltr/utils/helper.dart';
 
 class AddSubjectDialog extends StatefulWidget {
-  final Function(String name, String color) onAdd;
+  final String? subjectName;
+  final String? subjectColor;
+  final int? index;
+  final Function({required String name, required String color, int? index})
+      onSave;
 
-  const AddSubjectDialog({required this.onAdd, super.key});
+  const AddSubjectDialog(
+      {required this.onSave,
+      this.subjectName,
+      this.subjectColor,
+      this.index,
+      super.key});
 
   @override
   State<AddSubjectDialog> createState() => _AddSubjectDialogState();
@@ -32,8 +42,24 @@ class _AddSubjectDialogState extends State<AddSubjectDialog> {
     ColorTools.createPrimarySwatch(yellowGreen): 'YellowGreen',
   };
 
+  late TextEditingController _subjectNameController;
   Color _selectedColor = blue; // Default color
-  String _subjectName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _subjectNameController = TextEditingController(text: widget.subjectName);
+    if (widget.subjectColor != null) {
+      _selectedColor = Color(
+          hexToInt(widget.subjectColor != null ? widget.subjectColor! : ''));
+    }
+  }
+
+  @override
+  void dispose() {
+    _subjectNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +72,14 @@ class _AddSubjectDialogState extends State<AddSubjectDialog> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Add a subject',
+                Text('Subject name',
                     style: Theme.of(context)
                         .textTheme
                         .labelLarge
                         ?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: spacing3x),
                 TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      _subjectName = value;
-                    });
-                  },
+                  controller: _subjectNameController,
                 ),
                 const SizedBox(height: spacing4x),
                 // color picker
@@ -100,12 +122,19 @@ class _AddSubjectDialogState extends State<AddSubjectDialog> {
         ),
         TextButton(
           onPressed: () async {
-            widget.onAdd(_subjectName, _selectedColor.hex);
+            if (_subjectNameController.text.isEmpty) {
+              // show error message
+              return;
+            }
+            widget.onSave(
+                name: _subjectNameController.text,
+                color: _selectedColor.hex,
+                index: widget.index);
 
             if (!mounted) return; // If not mounted, return immediately
             Navigator.of(context).pop();
           },
-          child: const Text('Add'),
+          child: const Text('Save'),
         ),
       ],
     );
