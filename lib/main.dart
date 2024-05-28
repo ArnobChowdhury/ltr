@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ltr/screens/home.dart';
+import 'package:ltr/screens/editor.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:ltr/routes.dart';
 import 'package:ltr/services/hive_service.dart';
 
 void main() async {
@@ -57,7 +58,11 @@ class LTR extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(5.0))))),
       // darkTheme: ThemeData(), // overwrite for dark theme
       themeMode: ThemeMode.light, // for theme change
-      home: const Home(),
+      // home: const Home(),
+      routes: {
+        Routes.home: (context) => const Home(),
+        Routes.editor: (context) => const Editor(),
+      },
     );
   }
 }

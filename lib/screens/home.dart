@@ -5,6 +5,7 @@ import 'package:ltr/widgets/add_subject.dart';
 import 'package:ltr/services/hive_service.dart';
 import 'package:ltr/models/subject.dart';
 import 'package:ltr/utils/helper.dart';
+import 'package:ltr/routes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -112,7 +113,7 @@ class _HomeState extends State<Home> {
                           children: [
                             TextButton(
                                 onPressed: () {
-                                  // Take the user to the editor
+                                  Navigator.pushNamed(context, Routes.editor);
                                 },
                                 style: ButtonStyle(
                                     backgroundColor:
