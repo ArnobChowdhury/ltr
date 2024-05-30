@@ -72,7 +72,8 @@ class _HomeState extends State<Home> {
       // todo app bar to be replaced by Custom app bar
       appBar: AppBar(
           title: const Text('Home'),
-          backgroundColor: Colors.red[100],
+          centerTitle: true,
+          backgroundColor: Colors.grey.shade100,
           leadingWidth: 150,
           leading: Padding(
               padding: const EdgeInsets.all(spacing1x),
@@ -116,14 +117,13 @@ class _HomeState extends State<Home> {
                                   Navigator.pushNamed(context, Routes.editor);
                                 },
                                 style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Color(bgColorValue)),
-                                    minimumSize: MaterialStateProperty.all<Size>(
+                                    backgroundColor: WidgetStateProperty.all<
+                                        Color>(Color(bgColorValue)),
+                                    minimumSize: WidgetStateProperty.all<Size>(
                                         const Size(
                                             200, 150)), // Set the minimum size
                                     shape:
-                                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        WidgetStateProperty.all<RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(5)))),
