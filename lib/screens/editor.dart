@@ -57,11 +57,26 @@ class _EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    final subjectName = arguments?['subjectName'];
+    final bgColor = arguments?['bgColor'];
+    final textColor = arguments?['textColor'];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editor'),
-        centerTitle: true,
-        backgroundColor: Colors.grey.shade100,
+        title: Text(
+          subjectName ?? 'LTR Editor',
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(color: Color(textColor)),
+        ),
+        backgroundColor: Color(bgColor),
+        iconTheme: IconThemeData(
+          color: Color(textColor), // Change your desired color here
+        ),
       ),
       body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(

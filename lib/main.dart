@@ -22,48 +22,48 @@ class LTR extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'LTR',
-        theme: ThemeData(
-            textTheme: GoogleFonts.rubikTextTheme(),
-            colorScheme: const ColorScheme(
-              brightness: Brightness.light,
-              primary: Color(0xFF2B2B2B),
-              onPrimary: Colors.white,
-              secondary: Color(0xFF55786C),
-              onSecondary: Colors.white,
-              tertiary: Color(0xFF6F5D83),
-              onTertiary: Colors.black,
-              error: Colors.red,
-              onError: Colors.white,
-              surface: Colors.white,
-              onSurface: Colors.black,
+      title: 'LTR',
+      theme: ThemeData(
+          textTheme: GoogleFonts.rubikTextTheme(),
+          colorScheme: const ColorScheme(
+            brightness: Brightness.light,
+            primary: Color(0xFF2B2B2B),
+            onPrimary: Colors.white,
+            secondary: Color(0xFF55786C),
+            onSecondary: Colors.white,
+            tertiary: Color(0xFF6F5D83),
+            onTertiary: Colors.black,
+            error: Colors.red,
+            onError: Colors.white,
+            surface: Colors.white,
+            onSurface: Colors.black,
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade400)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade400)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade800),
             ),
-            inputDecorationTheme: InputDecorationTheme(
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade400)),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade400)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade800),
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-            ),
-            // textButtonTheme: TextButtonThemeData(
-            //     style: TextButton.styleFrom(
-            //         shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(5.0)))),
-            dialogTheme: const DialogTheme(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))))),
-        // darkTheme: ThemeData(), // overwrite for dark theme
-        themeMode: ThemeMode.light, // for theme change
-        // home: const Home(),
-        routes: {
-          Routes.home: (context) => const Home(),
-          Routes.editor: (context) => const Editor(),
-        },
-        localizationsDelegates: const [
-          AppFlowyEditorLocalizations.delegate
-        ]);
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          ),
+          // textButtonTheme: TextButtonThemeData(
+          //     style: TextButton.styleFrom(
+          //         shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(5.0)))),
+          dialogTheme: const DialogTheme(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))))),
+      // darkTheme: ThemeData(), // overwrite for dark theme
+      themeMode: ThemeMode.light, // for theme change
+      // home: const Home(),
+      routes: {
+        Routes.home: (context) => const Home(),
+        Routes.editor: (context) => const Editor(),
+      },
+      localizationsDelegates: const [AppFlowyEditorLocalizations.delegate],
+      debugShowCheckedModeBanner: false,
+    );
   }
 }

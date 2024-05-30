@@ -114,7 +114,13 @@ class _HomeState extends State<Home> {
                           children: [
                             TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, Routes.editor);
+                                  Navigator.pushNamed(context, Routes.editor,
+                                      arguments: {
+                                        'subjectName': subject.name,
+                                        'bgColor': bgColorValue,
+                                        'textColor': textColorValue,
+                                        'index': index
+                                      });
                                 },
                                 style: ButtonStyle(
                                     backgroundColor: WidgetStateProperty.all<
