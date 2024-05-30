@@ -63,11 +63,24 @@ class _EditorState extends State<Editor> {
         centerTitle: true,
         backgroundColor: Colors.grey.shade100,
       ),
-      body: SafeArea(
+      body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          width: 300,
+          color: Colors.grey[200],
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: Text("This is the left panel")),
+            ],
+          ),
+        ),
+        Expanded(
           child: DesktopEditor(
-        editorState: editorState,
-        textDirection: TextDirection.ltr,
-      )),
+            editorState: editorState,
+            textDirection: TextDirection.ltr,
+          ),
+        ),
+      ]),
     );
   }
 }
