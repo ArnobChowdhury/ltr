@@ -1,6 +1,7 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:ltr/widgets/flowy.dart';
+import 'package:ltr/widgets/folder_tree.dart';
 
 class Editor extends StatefulWidget {
   const Editor({super.key});
@@ -85,7 +86,7 @@ class _EditorState extends State<Editor> {
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: Text("This is the left panel")),
+              Expanded(child: FolderTree()),
             ],
           ),
         ),
