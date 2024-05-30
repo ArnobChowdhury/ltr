@@ -62,7 +62,6 @@ class _EditorState extends State<Editor> {
         title: const Text('Editor'),
         centerTitle: true,
         backgroundColor: Colors.grey.shade100,
-        leadingWidth: 150,
       ),
       body: SafeArea(
           child: DesktopEditor(

@@ -33,8 +33,6 @@ class LTR extends StatelessWidget {
               onSecondary: Colors.white,
               tertiary: Color(0xFF6F5D83),
               onTertiary: Colors.black,
-              background: Colors.white,
-              onBackground: Colors.black,
               error: Colors.red,
               onError: Colors.white,
               surface: Colors.white,
