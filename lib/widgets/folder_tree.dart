@@ -3,7 +3,9 @@ import 'package:ltr/constants/style.dart';
 import 'package:flutter_svg/svg.dart';
 
 class FolderTree extends StatelessWidget {
-  const FolderTree({super.key});
+  final Function(String name) onFolderCreationAtRoot;
+
+  const FolderTree({required this.onFolderCreationAtRoot, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +18,10 @@ class FolderTree extends StatelessWidget {
             IconButton(
               onPressed: () {
                 // we handle folder creation here
+                onFolderCreationAtRoot("Giraffe");
               },
               icon: const Icon(Icons.create_new_folder_outlined),
-              tooltip: "Create a virtual file",
+              tooltip: "Create a virtual folder",
             ),
             const SizedBox(width: spacing1x),
             IconButton(

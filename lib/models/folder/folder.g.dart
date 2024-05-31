@@ -8,7 +8,7 @@ part of 'folder.dart';
 
 class FolderAdapter extends TypeAdapter<Folder> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Folder read(BinaryReader reader) {
@@ -16,11 +16,12 @@ class FolderAdapter extends TypeAdapter<Folder> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Folder()
-      ..name = fields[0] as String
-      ..uuid = fields[1] as String
-      ..subject = fields[2] as Subject?
-      ..parentFolder = fields[3] as Folder?;
+    return Folder(
+      fields[0] as String,
+      fields[1] as String,
+      fields[2] as Subject?,
+      fields[3] as Folder?,
+    );
   }
 
   @override

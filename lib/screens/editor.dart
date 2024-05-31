@@ -2,6 +2,8 @@ import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:ltr/widgets/flowy.dart';
 import 'package:ltr/widgets/folder_tree.dart';
+import 'package:ltr/services/hive_service.dart';
+import 'package:ltr/models/folder/folder.dart';
 
 class Editor extends StatefulWidget {
   const Editor({super.key});
@@ -13,6 +15,12 @@ class Editor extends StatefulWidget {
 class _EditorState extends State<Editor> {
   late final EditorScrollController editorScrollController;
   late final EditorState editorState;
+  late final String subjectName;
+  late final int subjectIndex;
+  late final int bgColor;
+  late final int textColor;
+
+  List<Folder> _folders = [];
 
   @override
   void initState() {
@@ -57,21 +65,48 @@ class _EditorState extends State<Editor> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final arguments =
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    final Map<String, dynamic>? arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
-    final subjectName = arguments?['subjectName'];
-    final bgColor = arguments?['bgColor'];
-    final textColor = arguments?['textColor'];
+    subjectName = arguments?['subjectName'];
+    subjectIndex = arguments?['index'];
+    bgColor = arguments?['bgColor'];
+    textColor = arguments?['textColor'];
+  }
 
+  void _loadFolders() {
+    setState(() {
+      _folders = HiveService().getFolders();
+    });
+  }
+
+  void _onFolderCreationAtRoot(String name) async {
+    HiveService hiveService = HiveService();
+    final subject = hiveService.getOneSubject(subjectIndex);
+
+    if (subject != null) {
+      await hiveService.addFolder(
+        name: name,
+        subject: subject,
+      );
+      _loadFolders();
+    }
+    return;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          subjectName ?? 'LTR Editor',
+          subjectName,
           style: Theme.of(context)
               .textTheme
-              .titleLarge!
+              .titleMedium!
               .copyWith(color: Color(textColor)),
         ),
         backgroundColor: Color(bgColor),
@@ -83,10 +118,13 @@ class _EditorState extends State<Editor> {
         Container(
           width: 300,
           color: Colors.grey[200],
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: FolderTree()),
+              Expanded(
+                  child: FolderTree(
+                onFolderCreationAtRoot: _onFolderCreationAtRoot,
+              )),
             ],
           ),
         ),

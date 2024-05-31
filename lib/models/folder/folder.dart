@@ -3,7 +3,7 @@ import 'package:ltr/models/subject/subject.dart';
 
 part 'folder.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class Folder extends HiveObject {
   @HiveField(0)
   late String name;
@@ -18,4 +18,6 @@ class Folder extends HiveObject {
 
   @HiveField(3)
   Folder? parentFolder;
+
+  Folder(this.name, this.uuid, this.subject, this.parentFolder);
 }
