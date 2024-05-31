@@ -1,5 +1,5 @@
 import 'package:hive_flutter/adapters.dart';
-import "package:ltr/models/subject.dart";
+import "package:ltr/models/subject/subject.dart";
 
 class HiveService {
   static const String _subjectsBoxName = 'subjects';

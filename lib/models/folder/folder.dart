@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:ltr/models/subject.dart';
+import 'package:ltr/models/subject/subject.dart';
 
 part 'folder.g.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ltr/constants/style.dart';
 import 'package:ltr/widgets/add_subject.dart';
 import 'package:ltr/services/hive_service.dart';
-import 'package:ltr/models/subject.dart';
+import 'package:ltr/models/subject/subject.dart';
 import 'package:ltr/utils/helper.dart';
 import 'package:ltr/routes.dart';
 
