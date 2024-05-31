@@ -5,7 +5,7 @@ class HiveService {
   static const String _subjectsBoxName = 'subjects';
 
   static Future<void> init() async {
-    await Hive.initFlutter();
+    await Hive.initFlutter("ltr");
     Hive.registerAdapter(SubjectAdapter());
     await Hive.openBox<Subject>(_subjectsBoxName);
   }

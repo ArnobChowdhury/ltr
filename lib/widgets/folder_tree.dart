@@ -14,20 +14,24 @@ class FolderTree extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IconButton(
-                onPressed: () {
-                  // we handle folder creation here
-                },
-                icon: const Icon(Icons.create_new_folder_outlined)),
+              onPressed: () {
+                // we handle folder creation here
+              },
+              icon: const Icon(Icons.create_new_folder_outlined),
+              tooltip: "Create a virtual file",
+            ),
             const SizedBox(width: spacing1x),
             IconButton(
-                onPressed: () {
-                  // we handle file creation here
-                },
-                // color need to be changed
-                icon: SvgPicture.asset(
-                  'assets/add_file.svg',
-                  semanticsLabel: 'Add file icon',
-                )),
+              onPressed: () {
+                // we handle file creation here
+              },
+              // color need to be changed
+              icon: SvgPicture.asset(
+                'assets/add_file.svg',
+                semanticsLabel: 'Add file icon',
+              ),
+              tooltip: "Create a virtual file",
+            ),
           ],
         ));
   }
