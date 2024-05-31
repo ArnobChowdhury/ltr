@@ -20,7 +20,7 @@ class FolderAdapter extends TypeAdapter<Folder> {
       fields[0] as String,
       fields[1] as String,
       fields[2] as Subject?,
-      fields[3] as Folder?,
+      (fields[3] as List?)?.cast<Folder>(),
     );
   }
 
@@ -35,7 +35,7 @@ class FolderAdapter extends TypeAdapter<Folder> {
       ..writeByte(2)
       ..write(obj.subject)
       ..writeByte(3)
-      ..write(obj.parentFolder);
+      ..write(obj.children);
   }
 
   @override

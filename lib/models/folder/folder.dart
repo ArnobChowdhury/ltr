@@ -14,10 +14,9 @@ class Folder extends HiveObject {
   // Store the owner as a Hive object
   @HiveField(2)
   Subject? subject;
-  // Subject(this.name);
 
   @HiveField(3)
-  Folder? parentFolder;
+  List<Folder>? children;
 
-  Folder(this.name, this.uuid, this.subject, this.parentFolder);
+  Folder(this.name, this.uuid, this.subject, this.children);
 }

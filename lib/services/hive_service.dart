@@ -48,11 +48,11 @@ class HiveService {
   Future<void> addFolder(
       {required String name,
       required Subject subject,
-      Folder? parentFolder}) async {
+      List<Folder>? children}) async {
     Uuid uuidObject = const Uuid();
     String uuid = uuidObject.v4();
 
-    Folder newFolder = Folder(name, uuid, subject, parentFolder);
+    Folder newFolder = Folder(name, uuid, subject, children);
     await foldersBox.add(newFolder);
   }
 }
