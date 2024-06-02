@@ -76,11 +76,14 @@ class _EditorState extends State<Editor> {
     subjectIndex = arguments?['index'];
     bgColor = arguments?['bgColor'];
     textColor = arguments?['textColor'];
+
+    // load all the folders for this subject
+    _loadFolders(subjectIndex);
   }
 
-  void _loadFolders() {
+  void _loadFolders(int subjectIndex) {
     setState(() {
-      _folders = HiveService().getFolders();
+      _folders = HiveService().getFolders(subjectIndex);
     });
   }
 
@@ -93,7 +96,7 @@ class _EditorState extends State<Editor> {
         name: name,
         subject: subject,
       );
-      _loadFolders();
+      _loadFolders(subjectIndex);
     }
     return;
   }

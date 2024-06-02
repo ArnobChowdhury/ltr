@@ -41,8 +41,13 @@ class HiveService {
     await subjectsBox.deleteAt(index);
   }
 
-  List<Folder> getFolders() {
-    return foldersBox.values.toList();
+  List<Folder> getFolders(int subjectIndex) {
+    Subject? subject = subjectsBox.getAt(subjectIndex);
+    // should I throw an error here?
+    if (subject == null) return [];
+    return foldersBox.values
+        .where((folder) => folder.subject == subject)
+        .toList();
   }
 
   Future<void> addFolder(
