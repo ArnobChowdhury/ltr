@@ -16,7 +16,11 @@ class Folder extends HiveObject {
   Subject? subject;
 
   @HiveField(3)
-  List<Folder>? children;
+  List<Folder> children;
 
-  Folder(this.name, this.uuid, this.subject, this.children);
+  Folder(
+      {required this.name,
+      required this.uuid,
+      this.subject,
+      this.children = const []});
 }

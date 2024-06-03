@@ -1,5 +1,6 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:ltr/widgets/flowy.dart';
 import 'package:ltr/widgets/folder_tree.dart';
 import 'package:ltr/services/hive_service.dart';
@@ -66,7 +67,6 @@ class _EditorState extends State<Editor> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     final Map<String, dynamic>? arguments =
@@ -103,6 +103,13 @@ class _EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Folder> roots = _folders;
+
+    final treeController = TreeController<Folder>(
+      roots: roots,
+      childrenProvider: (Folder node) => node.children,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -127,6 +134,7 @@ class _EditorState extends State<Editor> {
               Expanded(
                   child: FolderTree(
                 onFolderCreationAtRoot: _onFolderCreationAtRoot,
+                treeController: treeController,
               )),
             ],
           ),
