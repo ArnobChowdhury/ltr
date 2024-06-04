@@ -4,7 +4,7 @@ import 'package:ltr/constants/style.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ltr/models/folder/folder.dart';
 
-class FolderTree extends StatelessWidget {
+class FolderTree extends StatefulWidget {
   final Function(String name) onFolderCreationAtRoot;
   final TreeController<Folder> treeController;
 
@@ -12,6 +12,33 @@ class FolderTree extends StatelessWidget {
       {required this.onFolderCreationAtRoot,
       required this.treeController,
       super.key});
+
+  @override
+  State<FolderTree> createState() => _FolderTreeState();
+}
+
+class _FolderTreeState extends State<FolderTree> {
+  // @override
+  // void didUpdateWidget(covariant FolderTree oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.treeController != widget.treeController) {
+  //     widget.treeController.dispose();
+  //   }
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   widget.treeController.addListener(() {
+  //     setState(() {});
+  //   });
+  // }
+
+  @override
+  void dispose() {
+    widget.treeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +52,7 @@ class FolderTree extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     // we handle folder creation here
-                    onFolderCreationAtRoot("Giraffe");
+                    widget.onFolderCreationAtRoot("Giraffe");
                   },
                   icon: const Icon(Icons.create_new_folder_outlined),
                   tooltip: "Create a virtual folder",
@@ -48,14 +75,31 @@ class FolderTree extends StatelessWidget {
               width: 200,
               height: 200,
               child: AnimatedTreeView<Folder>(
-                treeController: treeController,
+                treeController: widget.treeController,
                 nodeBuilder: (BuildContext context, TreeEntry<Folder> entry) {
-                  return InkWell(
-                    onTap: () => treeController.toggleExpansion(entry.node),
-                    child: TreeIndentation(
-                      guide: const IndentGuide.connectingLines(indent: 48),
-                      entry: entry,
-                      child: Text(entry.node.name),
+                  return TreeIndentation(
+                    entry: entry,
+                    child: Row(
+                      children: [
+                        if (entry.hasChildren)
+                          ExpandIcon(
+                            key: GlobalObjectKey(entry.node),
+                            isExpanded: entry.isExpanded,
+                            onPressed: (_) => widget.treeController
+                                .toggleExpansion(entry.node),
+                          )
+                        else
+                          const SizedBox(
+                            height: 40,
+                            width: 8,
+                          ),
+                        Flexible(
+                            child: InkWell(
+                          child: Text(entry.node.name),
+                          onTap: () =>
+                              widget.treeController.toggleExpansion(entry.node),
+                        ))
+                      ],
                     ),
                   );
                 },
