@@ -18,10 +18,9 @@ class FolderAdapter extends TypeAdapter<Folder> {
     };
     return Folder(
       name: fields[0] as String,
-      uuid: fields[1] as String,
       subject: fields[2] as Subject?,
       children: (fields[3] as List).cast<Folder>(),
-    );
+    )..id = fields[1] as String;
   }
 
   @override
@@ -31,7 +30,7 @@ class FolderAdapter extends TypeAdapter<Folder> {
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.uuid)
+      ..write(obj.id)
       ..writeByte(2)
       ..write(obj.subject)
       ..writeByte(3)

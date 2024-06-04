@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:ltr/models/subject/subject.dart';
+import 'package:uuid/uuid.dart';
 
 part 'folder.g.dart';
 
@@ -9,7 +10,7 @@ class Folder extends HiveObject {
   late String name;
 
   @HiveField(1)
-  late String uuid;
+  late String id;
 
   // Store the owner as a Hive object
   @HiveField(2)
@@ -18,9 +19,14 @@ class Folder extends HiveObject {
   @HiveField(3)
   List<Folder> children;
 
-  Folder(
-      {required this.name,
-      required this.uuid,
-      this.subject,
-      this.children = const []});
+  Folder({required this.name, this.subject, this.children = const []})
+      : id = const Uuid().v4();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Folder && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

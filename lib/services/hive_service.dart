@@ -1,7 +1,6 @@
 import 'package:hive_flutter/adapters.dart';
 import "package:ltr/models/subject/subject.dart";
 import "package:ltr/models/folder/folder.dart";
-import "package:uuid/uuid.dart";
 
 class HiveService {
   static const String _subjectsBoxName = 'subjects';
@@ -54,11 +53,7 @@ class HiveService {
       {required String name,
       required Subject subject,
       List<Folder> children = const []}) async {
-    Uuid uuidObject = const Uuid();
-    String uuid = uuidObject.v4();
-
-    Folder newFolder =
-        Folder(name: name, uuid: uuid, subject: subject, children: children);
+    Folder newFolder = Folder(name: name, subject: subject, children: children);
     await foldersBox.add(newFolder);
   }
 }
