@@ -52,7 +52,7 @@ class _FolderTreeState extends State<FolderTree> {
                 IconButton(
                   onPressed: () {
                     // we handle folder creation here
-                    widget.onFolderCreationAtRoot("Giraffe");
+                    widget.onFolderCreationAtRoot("Baccha giraffe");
                   },
                   icon: const Icon(Icons.create_new_folder_outlined),
                   tooltip: "Create a virtual folder",
@@ -83,7 +83,7 @@ class _FolderTreeState extends State<FolderTree> {
                       children: [
                         if (entry.hasChildren)
                           ExpandIcon(
-                            key: GlobalObjectKey(entry.node),
+                            key: GlobalObjectKey(entry.node.id),
                             isExpanded: entry.isExpanded,
                             onPressed: (_) => widget.treeController
                                 .toggleExpansion(entry.node),
@@ -103,6 +103,7 @@ class _FolderTreeState extends State<FolderTree> {
                     ),
                   );
                 },
+                duration: const Duration(milliseconds: 300),
               ),
             ),
           ],
